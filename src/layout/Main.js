@@ -1,24 +1,41 @@
 import React from 'react';
 import Preloader from '../components/Preloader';
 import MovieList from '../components/MovieList';
+import MusicList from '../components/MusicList';
 import Search from '../components/Search';
 import './Main.css';
 
-const API_KEY = process.env.REACT_APP_OMDB_API_KEY || 'd8f9e9fb';
+const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY || 'd8f9e9fb';
+const AUDIO_DB_API_KEY = '2';
 
 class Main extends React.Component {
   state = {
+    mode: 'movies',
     movies: [],
+    artists: [],
     loading: true,
     error: '',
-    searchText: 'Heat'
+    movieSearchText: 'Heat',
+    musicSearchText: 'Coldplay'
   };
 
   componentDidMount() {
-    this.searchMovie(this.state.searchText);
+    this.searchMovies(this.state.movieSearchText);
   }
 
-  searchMovie = (str) => {
+  setMode = (mode) => {
+    this.setState({ mode, error: '' }, () => {
+      if (mode === 'movies' && this.state.movies.length === 0) {
+        this.searchMovies(this.state.movieSearchText);
+      }
+
+      if (mode === 'music' && this.state.artists.length === 0) {
+        this.searchMusic(this.state.musicSearchText);
+      }
+    });
+  };
+
+  searchMovies = (str) => {
     const searchText = str.trim();
 
     if (!searchText) {
@@ -33,10 +50,10 @@ class Main extends React.Component {
     this.setState({
       loading: true,
       error: '',
-      searchText
+      movieSearchText: searchText
     });
 
-    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${searchText}`)
+    fetch(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${encodeURIComponent(searchText)}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.Response === 'True') {
@@ -62,19 +79,99 @@ class Main extends React.Component {
       });
   };
 
+  searchMusic = (str) => {
+    const searchText = str.trim();
+
+    if (!searchText) {
+      this.setState({
+        artists: [],
+        loading: false,
+        error: 'Введите имя исполнителя'
+      });
+      return;
+    }
+
+    this.setState({
+      loading: true,
+      error: '',
+      musicSearchText: searchText
+    });
+
+    fetch(`https://www.theaudiodb.com/api/v1/json/${AUDIO_DB_API_KEY}/search.php?s=${encodeURIComponent(searchText)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.artists && data.artists.length > 0) {
+          this.setState({
+            artists: data.artists,
+            loading: false,
+            error: ''
+          });
+        } else {
+          this.setState({
+            artists: [],
+            loading: false,
+            error: 'Исполнитель не найден'
+          });
+        }
+      })
+      .catch(() => {
+        this.setState({
+          artists: [],
+          loading: false,
+          error: 'Ошибка загрузки данных'
+        });
+      });
+  };
+
+  renderContent() {
+    const { mode, movies, artists, loading, error } = this.state;
+
+    if (loading) {
+      return <Preloader />;
+    }
+
+    if (error) {
+      return <h2 className="error">{error}</h2>;
+    }
+
+    if (mode === 'movies') {
+      return <MovieList movies={movies} />;
+    }
+
+    return <MusicList artists={artists} />;
+  }
+
   render() {
-    const { movies, loading, error, searchText } = this.state;
+    const { mode, movieSearchText, musicSearchText } = this.state;
+    const isMovies = mode === 'movies';
 
     return (
       <main className="main">
         <div className="wrap">
-          <Search searchMovie={this.searchMovie} defaultValue={searchText} />
+          <div className="tabs">
+            <button
+              className={isMovies ? 'tab active' : 'tab'}
+              onClick={() => this.setMode('movies')}
+            >
+              Movies
+            </button>
 
-          {loading && <Preloader />}
+            <button
+              className={!isMovies ? 'tab active' : 'tab'}
+              onClick={() => this.setMode('music')}
+            >
+              Music
+            </button>
+          </div>
 
-          {error && !loading && <h2 className="error">{error}</h2>}
+          <Search
+            searchMovie={isMovies ? this.searchMovies : this.searchMusic}
+            defaultValue={isMovies ? movieSearchText : musicSearchText}
+            placeholder={isMovies ? 'Введите название фильма' : 'Введите имя исполнителя'}
+            buttonText={isMovies ? 'Search movie' : 'Search artist'}
+          />
 
-          {!loading && !error && <MovieList movies={movies} />}
+          {this.renderContent()}
         </div>
       </main>
     );
