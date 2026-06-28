@@ -1,0 +1,16 @@
+.main {
+  flex: 1;
+  background: #eef0ed;
+}
+
+.wrap {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+.error {
+  text-align: center;
+  color: #b00020;
+  margin-top: 30px;
+}
