@@ -6,6 +6,12 @@ class Search extends React.Component {
     search: this.props.defaultValue || ''
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.defaultValue !== this.props.defaultValue) {
+      this.setState({ search: this.props.defaultValue || '' });
+    }
+  }
+
   handleKey = (event) => {
     if (event.key === 'Enter') {
       this.props.searchMovie(this.state.search);
@@ -13,11 +19,13 @@ class Search extends React.Component {
   };
 
   render() {
+    const { placeholder = 'Введите строку для поиска', buttonText = 'Search' } = this.props;
+
     return (
       <div className="search">
         <input
           type="search"
-          placeholder="Введите строку для поиска"
+          placeholder={placeholder}
           value={this.state.search}
           onChange={(event) => this.setState({ search: event.target.value })}
           onKeyDown={this.handleKey}
@@ -27,7 +35,7 @@ class Search extends React.Component {
           className="btn"
           onClick={() => this.props.searchMovie(this.state.search)}
         >
-          Search
+          {buttonText}
         </button>
       </div>
     );
