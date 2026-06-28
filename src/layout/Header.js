@@ -3,10 +3,10 @@ import './Header.css';
 function Header() {
   return (
     <header className="header">
-      <h1>Video</h1>
+      <h1>Media Search</h1>
       <div className="contacts">
-        <p>Movie search application</p>
-        <p>OMDb API</p>
+        <p>Movies + Music</p>
+        <p>OMDb API / TheAudioDB</p>
       </div>
     </header>
   );
