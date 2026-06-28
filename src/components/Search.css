@@ -1,0 +1,36 @@
+.search {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 35px;
+}
+
+.search input {
+  width: min(900px, 85%);
+  height: 48px;
+  border: none;
+  border-bottom: 2px solid #c8c8c8;
+  outline: none;
+  background: transparent;
+  padding: 0 18px;
+  font-size: 28px;
+  text-align: center;
+}
+
+.search input::placeholder {
+  color: #777;
+}
+
+.btn {
+  min-width: 90px;
+  height: 48px;
+  border: 2px solid #777;
+  background: #f5f5f5;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.btn:hover {
+  background: #202914;
+  color: white;
+}
