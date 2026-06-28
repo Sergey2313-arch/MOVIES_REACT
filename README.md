@@ -53,6 +53,10 @@ http://localhost:3000
 https://sergey2313-arch.github.io/MOVIES_REACT
 ```
 
+## Статус
+
+Workflow обновлён для деплоя через GitHub Actions.
+
 ## Автор
 
 Korobkov Sergey  
