@@ -9,6 +9,30 @@
   padding: 40px 0;
 }
 
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 28px;
+}
+
+.tab {
+  min-width: 130px;
+  padding: 13px 22px;
+  border: 2px solid #202914;
+  background: transparent;
+  color: #202914;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.tab.active,
+.tab:hover {
+  background: #202914;
+  color: white;
+}
+
 .error {
   text-align: center;
   color: #b00020;
