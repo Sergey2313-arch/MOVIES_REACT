@@ -13,7 +13,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        shell: bash
+        run: |
+          git init -q .
+          git remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            git fetch -q --depth=1 origin "refs/pull/${{ github.event.pull_request.number }}/merge"
+          else
+            git fetch -q --depth=1 origin "${GITHUB_SHA}"
+          fi
+          git checkout -q FETCH_HEAD
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
