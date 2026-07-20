@@ -5,12 +5,12 @@ import MusicList from '../components/MusicList';
 import Search from '../components/Search';
 import './Main.css';
 
-const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY || 'd8f9e9fb';
+const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY?.trim();
 const AUDIO_DB_API_KEY = '2';
 
 class Main extends React.Component {
   state = {
-    mode: 'movies',
+    mode: OMDB_API_KEY ? 'movies' : 'music',
     movies: [],
     artists: [],
     loading: true,
@@ -20,7 +20,12 @@ class Main extends React.Component {
   };
 
   componentDidMount() {
-    this.searchMovies(this.state.movieSearchText);
+    if (OMDB_API_KEY) {
+      this.searchMovies(this.state.movieSearchText);
+      return;
+    }
+
+    this.searchMusic(this.state.musicSearchText);
   }
 
   setMode = (mode) => {
@@ -36,6 +41,15 @@ class Main extends React.Component {
   };
 
   searchMovies = (str) => {
+    if (!OMDB_API_KEY) {
+      this.setState({
+        movies: [],
+        loading: false,
+        error: 'Раздел Movies не настроен: добавьте REACT_APP_OMDB_API_KEY.'
+      });
+      return;
+    }
+
     const searchText = str.trim();
 
     if (!searchText) {
