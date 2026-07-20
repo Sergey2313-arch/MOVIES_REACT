@@ -13,16 +13,9 @@ jobs:
 
     steps:
       - name: Checkout
-        shell: bash
-        run: |
-          git init -q .
-          git remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
-          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
-            git fetch -q --depth=1 origin "refs/pull/${{ github.event.pull_request.number }}/merge"
-          else
-            git fetch -q --depth=1 origin "${GITHUB_SHA}"
-          fi
-          git checkout -q FETCH_HEAD
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -33,14 +26,6 @@ jobs:
         run: npm install --silent --no-audit --no-fund
 
       - name: Build
-        shell: bash
-        run: |
-          if ! npm run build > build.log 2>&1; then
-            echo "::group::Build error"
-            tail -n 80 build.log
-            echo "::endgroup::"
-            exit 1
-          fi
-          tail -n 20 build.log
+        run: npm run build
         env:
           CI: false
