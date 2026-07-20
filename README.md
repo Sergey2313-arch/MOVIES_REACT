@@ -1,29 +1,35 @@
-# MOVIES_REACT
+# Movies & Music Search — React
 
-Учебное React-приложение для поиска фильмов и музыкальных исполнителей через внешние API.
+[![React CI](https://github.com/Sergey2313-arch/MOVIES_REACT/actions/workflows/react-ci.yml/badge.svg)](https://github.com/Sergey2313-arch/MOVIES_REACT/actions/workflows/react-ci.yml)
 
-## Описание
+React-приложение для поиска фильмов и музыкальных исполнителей через внешние API.
 
-Приложение объединяет два раздела:
+**Демо:** https://sergey2313-arch.github.io/MOVIES_REACT
 
-- Movies — поиск фильмов через OMDb API;
-- Music — поиск музыкальных исполнителей через TheAudioDB API.
+## Возможности
 
-Пользователь может переключаться между разделами, вводить строку поиска и получать карточки с данными из разных баз.
+- поиск фильмов по названию через OMDb API;
+- поиск музыкальных исполнителей через TheAudioDB API;
+- переключение между разделами Movies и Music;
+- карточки с изображениями и основной информацией;
+- индикатор загрузки;
+- обработка пустых результатов и сетевых ошибок;
+- адаптивный интерфейс;
+- production-сборка, проверяемая GitHub Actions.
 
 ## Что отображается
 
-В разделе Movies:
+### Movies
 
-- постер фильма;
+- постер;
 - название;
 - год выпуска;
 - тип результата.
 
-В разделе Music:
+### Music
 
-- фото исполнителя;
-- имя исполнителя;
+- фотография исполнителя;
+- имя;
 - жанр;
 - страна;
 - год основания;
@@ -31,48 +37,35 @@
 
 ## Технологии
 
-- React
-- JavaScript
-- CSS
-- Fetch API
-- OMDb API
-- TheAudioDB API
-- GitHub Pages
+- React 18;
+- JavaScript;
+- CSS;
+- Fetch API;
+- OMDb API;
+- TheAudioDB API;
+- GitHub Actions;
+- GitHub Pages.
 
-## Возможности
+## Локальный запуск
 
-- поиск фильмов по названию;
-- поиск музыкальных исполнителей по имени;
-- переключение между Movies и Music;
-- загрузка данных из внешних API;
-- вывод результатов в виде карточек;
-- прелоадер во время загрузки;
-- обработка ошибок.
-
-## Запуск локально
+Требования: Node.js 20+ и npm.
 
 ```bash
+git clone https://github.com/Sergey2313-arch/MOVIES_REACT.git
+cd MOVIES_REACT
 npm install
 npm start
 ```
 
-Приложение откроется по адресу:
+Приложение откроется по адресу `http://localhost:3000`.
 
-```text
-http://localhost:3000
-```
+## Production-сборка
 
-## GitHub Pages
-
-Проект настроен для публикации на GitHub Pages через GitHub Actions.
-
-Ссылка после публикации:
-
-```text
-https://sergey2313-arch.github.io/MOVIES_REACT
+```bash
+npm run build
 ```
 
 ## Автор
 
-Korobkov Sergey  
-Group: VPU411
+**Sergey Korobkov**  
+Junior Frontend / .NET Developer
