@@ -17,6 +17,8 @@ React-приложение для поиска фильмов и музыкал�
 - адаптивный интерфейс;
 - production-сборка, проверяемая GitHub Actions.
 
+Без настроенного OMDb-ключа приложение автоматически запускается в рабочем разделе Music. Для раздела Movies нужно указать переменную окружения.
+
 ## Что отображается
 
 ### Movies
@@ -54,10 +56,21 @@ React-приложение для поиска фильмов и музыкал�
 git clone https://github.com/Sergey2313-arch/MOVIES_REACT.git
 cd MOVIES_REACT
 npm install
+cp .env.example .env
 npm start
 ```
 
-Приложение откроется по адресу `http://localhost:3000`.
+В `.env` укажите собственный OMDb API-ключ:
+
+```text
+REACT_APP_OMDB_API_KEY=your_omdb_api_key
+```
+
+Реальный ключ нельзя коммитить в Git. Приложение откроется по адресу `http://localhost:3000`.
+
+## GitHub Pages
+
+Workflow публикации получает значение из GitHub Actions secret с именем `OMDB_API_KEY`. Если secret не задан, деплой всё равно собирается, но доступен только раздел Music.
 
 ## Production-сборка
 
